@@ -1,0 +1,4 @@
+class WordConst:
+    WORD_STATUS_OK = 1
+    WORD_STATUS_PENDING = 0
+    WORD_STATUS_NOT_ADDED = -1
