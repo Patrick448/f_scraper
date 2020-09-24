@@ -21,17 +21,30 @@ class Word:
     def status(self):
         title_locator = WordPageLocators.TITLE
         title_text = self.soup.select_one(title_locator).text
-        pending_pattern = r'^How to pronounce.+'
-        not_added_pattern = r'Forvo - Page not found'
-        match_pending = re.match(pending_pattern, title_text)
-        match_not_added = re.match(not_added_pattern, title_text)
+        #pending_pattern = r'^How to pronounce.+'
+        #not_added_pattern = r'Forvo - Page not found'
+        
 
-        if match_pending:
+        #match_pending = re.match(pending_pattern, title_text)
+        #match_not_added = re.match(not_added_pattern, title_text)
+
+        language_container = self.soup.select_one("#language-container-zh")
+        pronunciation_pending_container = self.soup.select_one(".waiting_pronunciations #zh")
+
+        if pronunciation_pending_container:
             return WordConst.WORD_STATUS_PENDING
-        elif match_not_added:
+        elif not language_container:
             return WordConst.WORD_STATUS_NOT_ADDED
         else:
             return WordConst.WORD_STATUS_OK
+
+    @property
+    def id(self):
+        locator = WordPageLocators.WORD_ID_LOCATOR
+        id_div = self.soup.select_one(locator)
+        id = id_div.attrs.get('data')
+
+        return id
 
     @property
     def pronunciations(self):

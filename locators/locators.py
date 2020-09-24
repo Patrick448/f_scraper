@@ -7,7 +7,7 @@ class WordPageLocators:
     MANDARIN_SECTION = '#language-container-zh'
     PRONUNCIATION_LOCATOR = '#language-container-zh ul.show-all-pronunciations li'
     TITLE = 'title'
-
+    WORD_ID_LOCATOR = 'div.idWord'
 
 class PronunciationLocators:
     AUTHOR = 'span.ofLink' # might return more than one tag, but should be the first one

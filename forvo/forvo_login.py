@@ -19,6 +19,7 @@ class ForvoLogin:
     WORD_ADD_URL = 'https://forvo.com/word-add/'
     WORD_CHECK_URL = 'https://forvo.com/word-add-ajax/'
     ACCOUNT_INFO_URL = 'https://forvo.com/account-info/'
+    NOT_SATISFIED_URL = 'https://forvo.com/notsatisfied/'
     SESSION_STATUS_OFF = 0
     SESSION_STATUS_ON = 1
     SESSION_STATUS_ERROR = -1
@@ -119,6 +120,17 @@ class ForvoLogin:
             print("Word added!")
             logger.debug("Word added")
 
+    def ask_new(self, word: Word):
+        data = {
+            "f":"requestPronounciation",
+            "idWord": word.id,
+            "idLang": self.language['idLang']
+            }
+        logger.info(f"Asking for new pronunciation. Word ID: {word.id}")
+        self.scraper.post(self.NOT_SATISFIED_URL, data=data)
+        logger.info("Asked for new pronunciation")
+        
+
     def get_words_from_history(self):
         words_text = WordHistory.get()
         return self.get_words(words_text)
@@ -134,7 +146,7 @@ class ForvoLogin:
 
         if not os.path.exists(file_path):
             with open(file_path, 'w+b') as file:
-                url = f"https://forvo.com/download/mp3/{pronunciation.word}/{self.language['code']}/{pronunciation.id}"
+                url = f"https://forvo.com/download/mp3/{pronunciation.forvo_pronunciation_name}/{self.language['code']}/{pronunciation.id}"
                 download = self.scraper.get(url).content
                 file.write(download)
 

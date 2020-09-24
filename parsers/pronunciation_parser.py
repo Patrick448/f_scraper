@@ -25,6 +25,15 @@ class Pronunciation:
         file_id = download_tag.attrs.get('data-p4')
 
         return file_id
+    
+    @property
+    def forvo_pronunciation_name(self):
+        locator = PronunciationLocators.DOWNLOAD_TAG
+        download_tag = self.tag.select_one(locator)
+        pronunciation_name = download_tag.attrs.get('data-p2')
+
+        return pronunciation_name
+
 
     @property
     def votes(self):

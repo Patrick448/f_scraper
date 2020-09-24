@@ -2,7 +2,9 @@
 Request new pronunciation
 
 post to https://forvo.com/notsatisfied/
-{"f":"requestPronounciation","idWord":"7384033","idLang":"186"}
+{"f":"requestPronounciation",
+"idWord":"7384033",
+"idLang":"186"}
 
 -----------------------------------------------------
 

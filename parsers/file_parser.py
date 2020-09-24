@@ -1,3 +1,5 @@
+from typing import List
+
 class CSVParser:
     def __init__(self, file_path):
         parsed_list = []
@@ -6,7 +8,8 @@ class CSVParser:
             lines = [line.strip() for line in file.readlines() if line.strip()]
             self.parsed_list = [line.split("\t") for line in lines]
 
-    def get_column(self, index):
+    def get_column(self, index: int) -> List:
         column = [line[index] for line in self.parsed_list]
         return column
+    
 

@@ -52,35 +52,44 @@ Type:"""
     def menu_from_words(self, words):
         words_menu = Menu.menu_from_list(words)
         print(words_menu)
-        user_input = input("Number or 'q' to quit: ")
+        user_input = input("Number or 'q' to quit, or x to add all: ")
 
         while user_input != 'q':
-            selected_word = words[int(user_input) - 1]
-            pronunciations = selected_word.pronunciations
-            prons_menu = Menu.menu_from_list(pronunciations)
-            print(prons_menu)
 
-            if selected_word.status == 1:
-                user_input = input("Number or 'q' to quit: ")
+            if user_input == 'x':
+                print("Adding word list...")
+                for word in words:
+                    if word.status == -1:
+                        print(f"Adding {word.text}")
+                        self.flogin.add(word.text, True)
+            
+            else:
+                selected_word = words[int(user_input) - 1]
+                pronunciations = selected_word.pronunciations
+                prons_menu = Menu.menu_from_list(pronunciations)
+                print(prons_menu)
 
-                while user_input != 'q':
-                    selected_pron = pronunciations[int(user_input) - 1]
-                    pronunciation_file = self.flogin.download_file(selected_pron)
-                    Player.play(pronunciation_file)
-
-                    user_input = input("Type 'd' to download to the specified directory: ")
-                    if user_input == 'd':
-                        self.flogin.download_file_to(self.test_file_dir, selected_pron)
-
+                if selected_word.status == 1:
                     user_input = input("Number or 'q' to quit: ")
 
-            elif selected_word.status == -1:
-                user_input = input("Word not on Forvo. Type 'a' to add (-1 for phrase, -0 for word): ")
-                cmds = user_input.split('-')
+                    while user_input != 'q':
+                        selected_pron = pronunciations[int(user_input) - 1]
+                        pronunciation_file = self.flogin.download_file(selected_pron)
+                        Player.play(pronunciation_file)
 
-                if cmds[0] == 'a':
-                    is_phrase = True if int(cmds[1]) else 0
-                    self.flogin.add(selected_word.text, is_phrase)
+                        user_input = input("Type 'd' to download to the specified directory: ")
+                        if user_input == 'd':
+                            self.flogin.download_file_to(self.test_file_dir, selected_pron)
+
+                        user_input = input("Number or 'q' to quit: ")
+
+                elif selected_word.status == -1:
+                    user_input = input("Word not on Forvo. Type 'a' to add (-1 for phrase, -0 for word): ")
+                    cmds = user_input.split('-')
+
+                    if cmds[0] == 'a':
+                        is_phrase = True if int(cmds[1]) else False
+                        self.flogin.add(selected_word.text, is_phrase)
 
             print("\n" + words_menu)
             user_input = input("Number or 'q' to quit: ")

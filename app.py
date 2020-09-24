@@ -1,10 +1,13 @@
 # coding=utf-8
 import logging
 from forvo.forvo_login import ForvoLogin
+from parsers.file_parser import CSVParser
 from ui.menu import Menu
+from ui.tk_interface import AppGUI
 
 # TODO: save recently added words to a file
 # TODO: every time I log in, check if those words have been pronounced
+
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
                     datefmt='%d-%m-%Y %H:%M:%S',
@@ -30,7 +33,23 @@ while flogin.status is flogin.SESSION_STATUS_OFF:
 else:
     if flogin.status == flogin.SESSION_STATUS_ON:
         print("Logged in!\n")
+
+        csv_parser = CSVParser('vocab.txt')
+
+        phrases_from_file = csv_parser.get_column(0)
+        words_from_file = csv_parser.get_column(2)
+        phrases_from_file.extend(words_from_file)
+    
+        words = flogin.get_words(phrases_from_file)
+
+        app_gui = AppGUI(flogin)
+        app_gui.create_window()
+        app_gui.create_word_menu(words)
+        app_gui.show_window()
+
         m.menu()
+
+
 
     elif flogin.status == flogin.SESSION_STATUS_ERROR:
         print("Can't connect!\n")
