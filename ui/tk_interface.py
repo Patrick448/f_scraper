@@ -10,18 +10,41 @@ from forvo.forvo_login import ForvoLogin
 
 class AppGUI():
 
-    test_file_dir = "C:/Users/patri/OneDrive/Desktop/test"
+    test_file_dir = "C:/Users/patri/OneDrive/Desktop/fscraper_audio"
 
     def __init__(self, login: ForvoLogin):
         self.login = login
-
 
     def create_window(self):
         self.root = tk.Tk()
         self.root.title("Forvo Scraper")
         self.main = ttk.Frame(self.root)
         self.main.pack(side="top", fill="x", padx=5, pady=(4, 0))
+    
+    def create_root(self):
+        #test
+        self.root = tk.Tk()
+        #self.root.title("Forvo Scraper")
+        #self.main = ttk.Frame(self.root)
+    
+    def create_options_menu(self, options: List):
+        #test
+        options_window = self.root
+        options_window.title("Options")
 
+        main = ttk.Frame(options_window)
+        main.pack(side="top", fill="x", padx=5, pady=(4, 0))
+
+        for option in options:
+            #theres o way to return values from the interface
+            #so I should save the selected option in a global class instace variable
+            #and access that variable from the main application
+
+            button = ttk.Button(main, text=option, width=5)
+            button.pack(fill="x", expand=True)
+            pass
+
+     
     def show_window(self):
         self.root.mainloop()
 
@@ -41,6 +64,7 @@ class AppGUI():
         if word.status == -1:
             button = ttk.Button(item, text="Add", width=5, command=lambda: self.create_add_word_window(word))
             button.pack(side="right")
+            
         elif word.status == 0:
             button = ttk.Button(item, text="...", width=5)
             button.pack(side="right")

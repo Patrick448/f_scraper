@@ -1,7 +1,7 @@
 # coding=utf-8
 import logging
 from forvo.forvo_login import ForvoLogin
-from parsers.file_parser import CSVParser
+from parsers.file_parser import CSVParser, ExcelParser
 from ui.menu import Menu
 from ui.tk_interface import AppGUI
 
@@ -25,6 +25,10 @@ flogin = ForvoLogin(username)
 session = flogin.session
 m = Menu(flogin)
 
+#test
+#ep = ExcelParser('C:/Users/patri/OneDrive/Desktop/Patrick/Vocab/VocabList-Mandarin.xlsx')
+#print(ep.get_file_as_dict_list)
+#dates = [item['date'] for item in ep.get_file_as_dict_list]
 
 while flogin.status is flogin.SESSION_STATUS_OFF:
     password = input('Password: ')
@@ -43,6 +47,13 @@ else:
         words = flogin.get_words(phrases_from_file)
 
         app_gui = AppGUI(flogin)
+
+        #test
+        #app_gui.create_root()
+        #app_gui.create_options_menu(["op1", "op2", "op3"])
+        #app_gui.show_window()
+
+        
         app_gui.create_window()
         app_gui.create_word_menu(words)
         app_gui.show_window()
